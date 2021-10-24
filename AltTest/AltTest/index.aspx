@@ -10,11 +10,11 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script type="text/javascript">
         var xhr;
-        var data = new Object();
         function ProcessImageByUrl() {
             if (xhr && xhr.readyState != 4) {
                 xhr.abort();
             }
+            var data = new Object();
             data.url = $("#<%=UploadImageTextBox.ClientID%>")[0].value;
             data.dropboxValue = $("#<%=OptionDropDownList.ClientID%> option:selected").val();
             xhr = $.ajax({
