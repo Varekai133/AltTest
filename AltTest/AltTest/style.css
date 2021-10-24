@@ -1,0 +1,44 @@
+﻿body {
+    margin: 0;
+    padding: 0;
+    background-color: #c9e8e8;
+}
+
+u {
+    font-family:'PT Serif', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+section {
+    width: auto;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+table {
+    border-collapse: collapse;
+    border: 1px solid #bdc3c7;
+    box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2), -1px -1px 8px rgba(0, 0, 0, 0.2);
+    background-color: #f3f3f3;
+}
+
+#header {
+    background-color: #6cb3ce;
+    color: #f3f3f3;
+}
+
+h1 {
+    font-weight: 600;
+    text-align: center;
+    background-color: #6cb3ce;
+    color: #f3f3f3;
+    padding: 10px 0px;
+    font-family: 'PT Serif', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    height: 43px;
+}

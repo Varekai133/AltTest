@@ -1,0 +1,15 @@
+E:\test\AltTest\AltTest\bin\AltTest.dll.config
+E:\test\AltTest\AltTest\bin\AltTest.dll
+E:\test\AltTest\AltTest\bin\AltTest.pdb
+E:\test\AltTest\AltTest\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+E:\test\AltTest\AltTest\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+E:\test\AltTest\AltTest\obj\Debug\AltTest.csprojResolveAssemblyReference.cache
+E:\test\AltTest\AltTest\obj\Debug\AltTest.csproj.CoreCompileInputs.cache
+E:\test\AltTest\AltTest\obj\Debug\AltTest.dll
+E:\test\AltTest\AltTest\obj\Debug\AltTest.pdb
+E:\test\AltTest\AltTest\bin\AForge.dll
+E:\test\AltTest\AltTest\bin\AForge.Video.DirectShow.dll
+E:\test\AltTest\AltTest\bin\AForge.Video.dll
+E:\test\AltTest\AltTest\bin\AForge.xml
+E:\test\AltTest\AltTest\bin\AForge.Video.xml
+E:\test\AltTest\AltTest\bin\AForge.Video.DirectShow.xml
