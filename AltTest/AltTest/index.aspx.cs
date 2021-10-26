@@ -7,56 +7,81 @@ using System.Web.UI.WebControls;
 using System.Drawing;
 using System.IO;
 using System.Web.Services;
-using AForge.Video;
-using AForge.Video.DirectShow;
 using System.Net;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace AltTest
 {
     public partial class index : System.Web.UI.Page
     {
+        private static List<CancellationTokenSource> cancellationTokenSourceList = new List<CancellationTokenSource>();
+
         protected void Page_Load(object sender, EventArgs e)
         {
-           
+
         }
 
+        [WebMethod()]
+        public static string ProcessImage(string imageUrlInserterByUser, string dropboxValue)
+        {
+            string s = "";
+            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+            cancellationTokenSourceList.Add(cancellationTokenSource);
+            if (cancellationTokenSourceList.Count != 1)
+                cancellationTokenSourceList[cancellationTokenSourceList.Count - 2].Cancel();
+            var task = Task.Run(() =>
+            {
+                try
+                {
+                    s = ProcessCurrentImage(cancellationTokenSource.Token, imageUrlInserterByUser, dropboxValue);
+                }
+                catch (OperationCanceledException)
+                {
+                    
+                }
+            }
+            , cancellationTokenSource.Token);
+            task.Wait();
+            return s;
+        }
         
         [WebMethod()]
-        public static string ProcessImage(string url, string dropboxValue)
-        {
+        public static string ProcessCurrentImage(CancellationToken cancellationToken, string imageUrlInserterByUser, string dropboxValue)
+        {            
             Bitmap mainBitmap;
             byte[] byteArrayFromImageUrl;
             using (WebClient client = new WebClient())
             {
-                byteArrayFromImageUrl = client.DownloadData(url);
+                byteArrayFromImageUrl = client.DownloadData(imageUrlInserterByUser);
             }
-            using (MemoryStream ms = new MemoryStream(byteArrayFromImageUrl))
+            using (MemoryStream memoryStreamToCreateBitmapFromUrl = new MemoryStream(byteArrayFromImageUrl))
             {
-                mainBitmap = new Bitmap(ms);
+                mainBitmap = new Bitmap(memoryStreamToCreateBitmapFromUrl);
             }
-            
+
             if (dropboxValue == "GrayValue")
-                ToGrayProcessImage(mainBitmap);
+                ToGrayProcessImage(mainBitmap, cancellationToken);
             if (dropboxValue == "SwapGandBValue")
-                SwapGandBProcessImage(mainBitmap);
+                SwapGandBProcessImage(mainBitmap, cancellationToken);
 
             byte[] byteArrayOfResultImage;
-            using (MemoryStream ms2 = new MemoryStream())
+            using (MemoryStream memoryStreamToSaveBitmapToImage = new MemoryStream())
             {
-                mainBitmap.Save(ms2, System.Drawing.Imaging.ImageFormat.Png);
-                byteArrayOfResultImage = ms2.ToArray();
+                mainBitmap.Save(memoryStreamToSaveBitmapToImage, System.Drawing.Imaging.ImageFormat.Png);
+                byteArrayOfResultImage = memoryStreamToSaveBitmapToImage.ToArray();
             }
-            Thread.Sleep(5000);
             return Convert.ToBase64String(byteArrayOfResultImage);
         }
 
-        private static void ToGrayProcessImage(Bitmap bitmap)
+        private static void ToGrayProcessImage(Bitmap bitmap, CancellationToken cancellationToken)
         {
             for (int x = 0; x < bitmap.Width; x++)
             {
+                Thread.Sleep(10);
                 for (int y = 0; y < bitmap.Height; y++)
                 {
+                    cancellationToken.ThrowIfCancellationRequested();
                     Color pixelColor = bitmap.GetPixel(x, y);
                     byte grayColor = (byte)(.299 * pixelColor.R + .587 * pixelColor.G + .114 * pixelColor.B);
                     bitmap.SetPixel(x, y, Color.FromArgb(grayColor, grayColor, grayColor));
@@ -64,12 +89,14 @@ namespace AltTest
             }
         }
 
-        private static void SwapGandBProcessImage(Bitmap bitmap)
+        private static void SwapGandBProcessImage(Bitmap bitmap, CancellationToken cancellationToken)
         {
             for (int x = 0; x < bitmap.Width; x++)
             {
+                Thread.Sleep(10);
                 for (int y = 0; y < bitmap.Height; y++)
                 {
+                    cancellationToken.ThrowIfCancellationRequested();
                     Color pixelColor = bitmap.GetPixel(x, y);
                     bitmap.SetPixel(x, y, Color.FromArgb(pixelColor.R, pixelColor.B, pixelColor.G));
                 }

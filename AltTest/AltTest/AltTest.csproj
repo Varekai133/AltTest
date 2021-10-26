@@ -85,6 +85,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="index.aspx" />
+    <Content Include="Scripts\axios.js" />
+    <Content Include="Scripts\axios.min.js" />
     <Content Include="style.css" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
