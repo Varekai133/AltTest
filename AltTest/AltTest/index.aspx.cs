@@ -25,7 +25,7 @@ namespace AltTest
         [WebMethod()]
         public static string ProcessImage(string imageUrlInserterByUser, string dropboxValue)
         {
-            string urlImageToSendToUser = "";
+            string urlImageToSendToUser = null;
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
             cancellationTokenSourceList.Add(cancellationTokenSource);
             if (cancellationTokenSourceList.Count != 1)
@@ -36,9 +36,17 @@ namespace AltTest
                 {
                     urlImageToSendToUser = ProcessCurrentImage(cancellationTokenSource.Token, imageUrlInserterByUser, dropboxValue);
                 }
+                catch(WebException)
+                {
+
+                }
                 catch (OperationCanceledException)
                 {
                     
+                }
+                finally
+                {
+                    cancellationTokenSourceList.Remove(cancellationTokenSource);
                 }
             }
             , cancellationTokenSource.Token);
