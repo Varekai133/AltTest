@@ -25,16 +25,16 @@ namespace AltTest
         [WebMethod()]
         public static string ProcessImage(string imageUrlInserterByUser, string dropboxValue)
         {
-            string s = "";
+            string urlImageToSendToUser = "";
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
             cancellationTokenSourceList.Add(cancellationTokenSource);
             if (cancellationTokenSourceList.Count != 1)
                 cancellationTokenSourceList[cancellationTokenSourceList.Count - 2].Cancel();
-            var task = Task.Run(() =>
+            var currentTask = Task.Run(() =>
             {
                 try
                 {
-                    s = ProcessCurrentImage(cancellationTokenSource.Token, imageUrlInserterByUser, dropboxValue);
+                    urlImageToSendToUser = ProcessCurrentImage(cancellationTokenSource.Token, imageUrlInserterByUser, dropboxValue);
                 }
                 catch (OperationCanceledException)
                 {
@@ -42,8 +42,8 @@ namespace AltTest
                 }
             }
             , cancellationTokenSource.Token);
-            task.Wait();
-            return s;
+            currentTask.Wait();
+            return urlImageToSendToUser;
         }
         
         [WebMethod()]
@@ -83,8 +83,8 @@ namespace AltTest
                 {
                     cancellationToken.ThrowIfCancellationRequested();
                     Color pixelColor = bitmap.GetPixel(x, y);
-                    byte grayColor = (byte)(.299 * pixelColor.R + .587 * pixelColor.G + .114 * pixelColor.B);
-                    bitmap.SetPixel(x, y, Color.FromArgb(grayColor, grayColor, grayColor));
+                    byte grayColorFromRGB = (byte)(.299 * pixelColor.R + .587 * pixelColor.G + .114 * pixelColor.B);
+                    bitmap.SetPixel(x, y, Color.FromArgb(grayColorFromRGB, grayColorFromRGB, grayColorFromRGB));
                 }
             }
         }
