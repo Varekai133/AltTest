@@ -34,7 +34,7 @@ namespace AltTest
             {
                 try
                 {
-                    urlImageToSendToUser = ProcessCurrentImage(cancellationTokenSource.Token, imageUrlInserterByUser, dropboxValue);
+                    urlImageToSendToUser  = ProcessCurrentImage(cancellationTokenSource.Token, imageUrlInserterByUser, dropboxValue);
                 }
                 catch(WebException)
                 {
@@ -54,8 +54,7 @@ namespace AltTest
             return urlImageToSendToUser;
         }
         
-        [WebMethod()]
-        public static string ProcessCurrentImage(CancellationToken cancellationToken, string imageUrlInserterByUser, string dropboxValue)
+        private static string ProcessCurrentImage(CancellationToken cancellationToken, string imageUrlInserterByUser, string dropboxValue)
         {            
             Bitmap mainBitmap;
             byte[] byteArrayFromImageUrl;
