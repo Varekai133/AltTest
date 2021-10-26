@@ -14,10 +14,6 @@
             if (xhr && xhr.readyState != 4) {
                 xhr.abort();
             }
-            // + убрать кнопку
-            // время жизни поток паралелльно очередь разобраться
-            // abort на серверной части 
-            // изменить неймениг lock dropbox ms
             var data = new Object();
             data.imageUrlInserterByUser = $("#<%=UploadImageTextBox.ClientID%>")[0].value;
             data.dropboxValue = $("#<%=OptionDropDownList.ClientID%> option:selected").val();
