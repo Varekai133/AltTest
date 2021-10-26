@@ -46,6 +46,7 @@ namespace AltTest
                 }
                 finally
                 {
+                    cancellationTokenSource.Dispose();
                     cancellationTokenSourceList.Remove(cancellationTokenSource);
                 }
             }
